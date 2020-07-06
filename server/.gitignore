@@ -1,2 +1,8 @@
+#dependences
 node_modules
+
+#debugger
 .vscode
+
+#database connection
+ormconfig.json
