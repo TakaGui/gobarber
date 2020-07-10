@@ -37,6 +37,10 @@ export const Content = styled.div`
       width: 100%;
       color: #f4ede8;
 
+      &::placeholder {
+        color: #666360;
+      }
+
       & + input {
         margin-top: 8px;
       }
