@@ -12,3 +12,6 @@ temp/
 
 tmp/*
 !tmp/.gitkeep
+
+#coverage
+coverage
