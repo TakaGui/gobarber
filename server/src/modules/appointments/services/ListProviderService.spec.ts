@@ -1,16 +1,14 @@
-import AppError from '@shared/errors/AppError';
-
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import ListProviderService from './ListProviderService';
 
 let fakeUsersRepository: FakeUsersRepository;
-let ListProvider: ListProviderService;
+let listProvider: ListProviderService;
 
 describe('ListProvider', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
 
-    ListProvider = new ListProviderService(fakeUsersRepository);
+    listProvider = new ListProviderService(fakeUsersRepository);
   });
 
   it('should be able to list the providers', async () => {
@@ -32,7 +30,7 @@ describe('ListProvider', () => {
       password: '123456',
     });
 
-    const providers = await ListProvider.execute({
+    const providers = await listProvider.execute({
       user_id: loggedUser.id,
     });
 
