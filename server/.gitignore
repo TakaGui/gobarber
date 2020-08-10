@@ -15,3 +15,6 @@ tmp/*
 
 #coverage
 coverage
+
+#environment variables
+.env
