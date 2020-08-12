@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiPower, FiClock } from 'react-icons/fi';
 
 import { useAuth } from '../../hooks/auth';
@@ -19,9 +19,9 @@ import {
 } from './styles';
 
 const Dashboard: React.FC = () => {
-  const { user, signOut } = useAuth();
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  console.log(user.avatar_url);
+  const { user, signOut } = useAuth();
 
   return (
     <Container>
