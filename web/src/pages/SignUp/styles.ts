@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
-import signUpbackgroundImg from '../../assets/sign-up-background.png';
+import signUpBackgroundImg from '../../assets/sign-up-background.png';
 
 export const Container = styled.div`
   height: 100vh;
@@ -83,6 +83,6 @@ export const AnimationContainer = styled.div`
 
 export const Background = styled.div`
   flex: 1;
-  background: url(${signUpbackgroundImg}) no-repeat;
+  background: url(${signUpBackgroundImg}) no-repeat;
   background-size: cover;
 `;
