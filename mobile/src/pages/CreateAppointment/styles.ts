@@ -4,6 +4,14 @@ import { FlatList } from 'react-native';
 
 import IProvider from './types';
 
+interface IProviderContainerProps {
+  selected: boolean;
+}
+
+interface IProviderNameProps {
+  selected: boolean;
+}
+
 export const Container = styled.View`
   flex: 1;
 `;
@@ -42,8 +50,8 @@ export const ProvidersList = styled(FlatList as new () => FlatList<IProvider>)`
   padding: 32px 24px;
 `;
 
-export const ProviderContainer = styled.View`
-  background-color: #3e3b47;
+export const ProviderContainer = styled.View<IProviderContainerProps>`
+  background-color: ${props => (props.selected ? '#ff9000' : '#3e3b47')};
   flex-direction: row;
   align-items: center;
   padding: 8px 12px;
@@ -57,9 +65,9 @@ export const ProviderAvatar = styled.Image`
   border-radius: 16px;
 `;
 
-export const ProviderName = styled.Text`
+export const ProviderName = styled.Text<IProviderNameProps>`
   margin-left: 8px;
   font-family: 'RobotoSlab-Medium';
   font-size: 16px;
-  color: #f4ede8;
+  color: ${props => (props.selected ? '#232129' : '#f4ede8')};
 `;
