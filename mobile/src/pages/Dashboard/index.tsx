@@ -15,6 +15,7 @@ import {
   ProfileButton,
   UserAvatar,
   ProvidersList,
+  ProvidersListTitle,
   ProviderContainer,
   ProviderAvatar,
   ProviderInfo,
@@ -57,6 +58,9 @@ const Dashboard: React.FC = () => {
       <ProvidersList
         data={providers}
         keyExtractor={provider => provider.id}
+        ListHeaderComponent={
+          <ProvidersListTitle>Cabeleireiros</ProvidersListTitle>
+        }
         renderItem={({ item: provider }) => (
           <ProviderContainer onPress={() => {}}>
             <ProviderAvatar source={{ uri: provider.avatar_url }} />
