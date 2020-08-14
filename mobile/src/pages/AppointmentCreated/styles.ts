@@ -21,6 +21,7 @@ export const Description = styled.Text`
   font-size: 18px;
   color: #999591;
   margin-top: 16px;
+  padding: 0 32px;
 `;
 
 export const OkButton = styled(RectButton)`
