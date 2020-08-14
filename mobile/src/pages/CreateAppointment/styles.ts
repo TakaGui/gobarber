@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 
 import IProvider from './types';
 
@@ -50,7 +51,7 @@ export const ProvidersList = styled(FlatList as new () => FlatList<IProvider>)`
   padding: 32px 24px;
 `;
 
-export const ProviderContainer = styled.View<IProviderContainerProps>`
+export const ProviderContainer = styled(RectButton)<IProviderContainerProps>`
   background-color: ${props => (props.selected ? '#ff9000' : '#3e3b47')};
   flex-direction: row;
   align-items: center;
