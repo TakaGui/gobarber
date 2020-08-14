@@ -27,7 +27,7 @@ import {
 const Dashboard: React.FC = () => {
   const [providers, SetProviders] = useState<IProvider[]>([]);
 
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const { navigate } = useNavigation();
 
   useEffect(() => {
@@ -37,10 +37,8 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const navigateToProfile = useCallback(() => {
-    // navigate('Profile');
-    // Só por enquanto para fazer o logout da aplicação
-    signOut();
-  }, [signOut]);
+    navigate('Profile');
+  }, [navigate]);
 
   const navigateToCreateAppointment = useCallback(
     (providerId: string) => {
