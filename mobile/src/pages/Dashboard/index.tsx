@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../hooks/auth';
 
 import api from '../../services/api';
+import IProvider from './types';
 
 import {
   Container,
@@ -12,13 +13,8 @@ import {
   UserName,
   ProfileButton,
   UserAvatar,
+  ProvidersList,
 } from './styles';
-
-interface IProvider {
-  id: string;
-  name: string;
-  avatar_url: string;
-}
 
 const Dashboard: React.FC = () => {
   const [providers, SetProviders] = useState<IProvider[]>([]);
@@ -50,6 +46,12 @@ const Dashboard: React.FC = () => {
           <UserAvatar source={{ uri: user.avatar_url }} />
         </ProfileButton>
       </Header>
+
+      <ProvidersList
+        data={providers}
+        keyExtractor={provider => provider.id}
+        renderItem={({ item }) => <UserName>{item.name}</UserName>}
+      />
     </Container>
   );
 };
