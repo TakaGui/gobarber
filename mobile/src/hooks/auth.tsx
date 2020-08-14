@@ -8,27 +8,33 @@ import React, {
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '../services/api';
 
-interface AuthState {
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  avatar_url: string;
+}
+interface IAuthState {
   token: string;
-  user: object;
+  user: IUser;
 }
 
-interface SignInCredentials {
+interface ISignInCredentials {
   email: string;
   password: string;
 }
 
-interface AuthContextData {
-  user: object;
+interface IAuthContextData {
+  user: IUser;
   loading: boolean;
-  signIn(credentials: SignInCredentials): Promise<void>;
+  signIn(credentials: ISignInCredentials): Promise<void>;
   signOut(): void;
 }
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState<AuthState>({} as AuthState);
+  const [data, setData] = useState<IAuthState>({} as IAuthState);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -64,7 +70,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   const signOut = useCallback(async () => {
     await AsyncStorage.multiRemove(['@GoBarber:token', '@GoBarber:user']);
 
-    setData({} as AuthState);
+    setData({} as IAuthState);
   }, []);
 
   return (
@@ -74,7 +80,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   );
 };
 
-export function useAuth(): AuthContextData {
+export function useAuth(): IAuthContextData {
   const context = useContext(AuthContext);
 
   if (!context) {
