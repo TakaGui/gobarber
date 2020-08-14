@@ -18,6 +18,10 @@ interface ISectionHourProps {
   selected: boolean;
 }
 
+interface ISectionHourTextProps {
+  selected: boolean;
+}
+
 export const Container = styled.View`
   flex: 1;
 `;
@@ -134,8 +138,8 @@ export const SectionHour = styled(RectButton)<ISectionHourProps>`
   opacity: ${props => (props.available ? 1 : 0.3)};
 `;
 
-export const SectionHourText = styled.Text`
-  color: #f4ede8;
+export const SectionHourText = styled.Text<ISectionHourTextProps>`
+  color: ${props => (props.selected ? '#232129' : '#f4ede8')};
   font-family: 'RobotoSlab-Regular';
   font-size: 16px;
 `;
