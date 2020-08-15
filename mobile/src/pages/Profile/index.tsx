@@ -124,7 +124,7 @@ const Profile: React.FC = () => {
         );
       }
     },
-    [goBack],
+    [goBack, updateUser],
   );
 
   const handleGoBack = useCallback(() => {
