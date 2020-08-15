@@ -1,7 +1,6 @@
 import React, { useRef, useCallback } from 'react';
 import {
   View,
-  ScrollView,
   KeyboardAvoidingView,
   Platform,
   TextInput,
@@ -23,6 +22,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import {
+  Content,
   Container,
   BackButton,
   Title,
@@ -33,11 +33,13 @@ import {
 interface IProfileFormData {
   name: string;
   email: string;
+  old_password: string;
   password: string;
+  password_confirmation: string;
 }
 
 const Profile: React.FC = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   const formRef = useRef<FormHandles>(null);
   const { goBack } = useNavigation();
@@ -54,24 +56,59 @@ const Profile: React.FC = () => {
 
         const schema = Yup.object().shape({
           name: Yup.string().required('Nome obrigatório'),
+
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
-          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+
+          old_password: Yup.string(),
+
+          password: Yup.string().when('old_password', {
+            is: old_password => !!old_password.length,
+            then: Yup.string().min(6, 'No mínimo 6 dígitos'),
+            otherwise: Yup.string().min(0),
+          }),
+
+          password_confirmation: Yup.string()
+            .when('old_password', {
+              is: old_password => !!old_password.length,
+              then: Yup.string().min(6, 'No mínimo 6 dígitos'),
+              otherwise: Yup.string().min(0),
+            })
+            .oneOf([Yup.ref('password'), undefined], 'Confirmação incorreta'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        await api.post('/users', data);
+        const {
+          name,
+          email,
+          old_password,
+          password,
+          password_confirmation,
+        } = data;
+
+        const formData = {
+          name,
+          email,
+          ...(old_password
+            ? {
+                old_password,
+                password,
+                password_confirmation,
+              }
+            : {}),
+        };
+
+        const response = await api.put('/profile', formData);
+
+        await updateUser(response.data);
 
         goBack();
 
-        Alert.alert(
-          'Cadastro realizado com sucesso!',
-          'Você  já pode fazer login na aplicação.',
-        );
+        Alert.alert('Perfil atualizado com sucesso!');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -82,8 +119,8 @@ const Profile: React.FC = () => {
         }
 
         Alert.alert(
-          'Erro no cadastro',
-          'Ocorreu um erro ao fazer cadastro, tente novamente.',
+          'Erro na atualização do perfil',
+          'Ocorreu um erro ao atualizar seu perfil, tente novamente.',
         );
       }
     },
@@ -101,10 +138,7 @@ const Profile: React.FC = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         enabled
       >
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ flex: 1 }}
-        >
+        <Content>
           <Container>
             <BackButton onPress={handleGoBack}>
               <Icon name="chevron-left" size={24} color="#999591" />
@@ -118,7 +152,7 @@ const Profile: React.FC = () => {
               <Title>Meu perfil</Title>
             </View>
 
-            <Form ref={formRef} onSubmit={handleProfile}>
+            <Form initialData={user} ref={formRef} onSubmit={handleProfile}>
               <Input
                 autoCapitalize="words"
                 name="name"
@@ -174,7 +208,7 @@ const Profile: React.FC = () => {
               <Input
                 ref={confirmPasswordInputRef}
                 secureTextEntry
-                name="password"
+                name="password_confirmation"
                 icon="lock"
                 placeholder="Confirmar senha"
                 textContentType="newPassword"
@@ -189,7 +223,7 @@ const Profile: React.FC = () => {
               </View>
             </Form>
           </Container>
-        </ScrollView>
+        </Content>
       </KeyboardAvoidingView>
     </>
   );
