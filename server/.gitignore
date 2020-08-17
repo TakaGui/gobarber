@@ -18,3 +18,5 @@ coverage
 
 #environment variables
 .env
+
+dist
